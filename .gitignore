@@ -1,2 +1,5 @@
 /ffuf
 .idea
+*.sh
+bin/*
+dist/*

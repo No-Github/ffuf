@@ -8,22 +8,14 @@ import (
 	"path"
 	"sort"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/ffuf/ffuf/v2/pkg/ffuf"
 )
 
 const (
-	BANNER_HEADER = `
-        /'___\  /'___\           /'___\       
-       /\ \__/ /\ \__/  __  __  /\ \__/       
-       \ \ ,__\\ \ ,__\/\ \/\ \ \ \ ,__\      
-        \ \ \_/ \ \ \_/\ \ \_\ \ \ \ \_/      
-         \ \_\   \ \_\  \ \____/  \ \_\       
-          \/_/    \/_/   \/___/    \/_/       
-`
-	BANNER_SEP = "________________________________________________"
+	BANNER_HEADER = ``
+	BANNER_SEP    = ""
 )
 
 type Stdoutput struct {
@@ -47,8 +39,8 @@ func NewStdoutput(conf *ffuf.Config) *Stdoutput {
 }
 
 func (s *Stdoutput) Banner() {
-	version := strings.ReplaceAll(ffuf.Version(), "<3", fmt.Sprintf("%s<3%s", ANSI_RED, ANSI_CLEAR))
-	fmt.Fprintf(os.Stderr, "%s\n       v%s\n%s\n\n", BANNER_HEADER, version, BANNER_SEP)
+	//version := strings.ReplaceAll(ffuf.Version(), "<3", fmt.Sprintf("%s<3%s", ANSI_RED, ANSI_CLEAR))
+	//fmt.Fprintf(os.Stderr, "%s\n       v%s\n%s\n\n", BANNER_HEADER, version, BANNER_SEP)
 	printOption([]byte("Method"), []byte(s.config.Method))
 	printOption([]byte("URL"), []byte(s.config.Url))
 
@@ -60,11 +52,12 @@ func (s *Stdoutput) Banner() {
 	}
 
 	// Print headers
-	if len(s.config.Headers) > 0 {
-		for k, v := range s.config.Headers {
-			printOption([]byte("Header"), []byte(fmt.Sprintf("%s: %s", k, v)))
-		}
-	}
+	//if len(s.config.Headers) > 0 {
+	//	for k, v := range s.config.Headers {
+	//		printOption([]byte("Header"), []byte(fmt.Sprintf("%s: %s", k, v)))
+	//	}
+	//}
+
 	// Print POST data
 	if len(s.config.Data) > 0 {
 		printOption([]byte("Data"), []byte(s.config.Data))
@@ -95,12 +88,12 @@ func (s *Stdoutput) Banner() {
 	}
 
 	// Follow redirects?
-	follow := fmt.Sprintf("%t", s.config.FollowRedirects)
-	printOption([]byte("Follow redirects"), []byte(follow))
+	//follow := fmt.Sprintf("%t", s.config.FollowRedirects)
+	//printOption([]byte("Follow redirects"), []byte(follow))
 
 	// Autocalibration
-	autocalib := fmt.Sprintf("%t", s.config.AutoCalibration)
-	printOption([]byte("Calibration"), []byte(autocalib))
+	//autocalib := fmt.Sprintf("%t", s.config.AutoCalibration)
+	//printOption([]byte("Calibration"), []byte(autocalib))
 
 	// Proxies
 	if len(s.config.ProxyURL) > 0 {
@@ -111,12 +104,12 @@ func (s *Stdoutput) Banner() {
 	}
 
 	// Timeout
-	timeout := fmt.Sprintf("%d", s.config.Timeout)
-	printOption([]byte("Timeout"), []byte(timeout))
+	//timeout := fmt.Sprintf("%d", s.config.Timeout)
+	//printOption([]byte("Timeout"), []byte(timeout))
 
 	// Threads
-	threads := fmt.Sprintf("%d", s.config.Threads)
-	printOption([]byte("Threads"), []byte(threads))
+	//threads := fmt.Sprintf("%d", s.config.Threads)
+	//printOption([]byte("Threads"), []byte(threads))
 
 	// Delay?
 	if s.config.Delay.HasDelay {
@@ -384,7 +377,7 @@ func (s *Stdoutput) prepareInputsOneLine(res ffuf.Result) string {
 	inputs := ""
 	if len(s.fuzzkeywords) > 1 {
 		for _, k := range s.fuzzkeywords {
-		    if ffuf.StrInSlice(k, s.config.CommandKeywords) {
+			if ffuf.StrInSlice(k, s.config.CommandKeywords) {
 				// If we're using external command for input, display the position instead of input
 				inputs = fmt.Sprintf("%s%s : %s ", inputs, k, strconv.Itoa(res.Position))
 			} else {
@@ -392,8 +385,8 @@ func (s *Stdoutput) prepareInputsOneLine(res ffuf.Result) string {
 			}
 		}
 	} else {
-        for _, k := range s.fuzzkeywords {
-		    if ffuf.StrInSlice(k, s.config.CommandKeywords) {
+		for _, k := range s.fuzzkeywords {
+			if ffuf.StrInSlice(k, s.config.CommandKeywords) {
 				// If we're using external command for input, display the position instead of input
 				inputs = strconv.Itoa(res.Position)
 			} else {
